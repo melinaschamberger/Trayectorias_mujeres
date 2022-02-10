@@ -1,10 +1,10 @@
 ## Trayectorias académicas y laborales de las mujeres en Argentina
 <br><br>
-<i> Biodiversity in National Parks</i> is an app that let you visualize [Kaggle's biodiversity dataset](https://www.kaggle.com/nationalparkservice/park-biodiversity).
+La presente aplicación permite visualizar la situación de las mujeres en Argentina a partir del análisis de dos elementos claves: sus trayectorias académicas y sus trayectorias laborales.
 
-From the left navigation panel you'll be able to access the maps, data and charts concerning the US National Parks and their resident species.
-It has been made with [shiny](https://shiny.rstudio.com/) and you may find the code on [github](https://github.com/abenedetti/bioNPS/) and [rcloud](https://rstudio.cloud/project/246130). 
+El primer elemento hace referencia a su participación en la educación superior.
+El segundo, a su participación en distintos sectores económicos y su situación salarial.
 
-For a quick walkthrough have a look a the video below.
-<br><br><br>
-<iframe style = "display: block; margin: auto;" width="640" height="360" src="https://www.youtube.com/embed/Qu2J2ytWqxA?hd=1"></iframe>
+Navegando por los distintos items del panel izquierdo, el usuario/a podrá acerca de los distintos elementos a través de visualizaciones interactivas.
+
+La presente fue realizada con el programa [shiny](https://shiny.rstudio.com/) y el código se puede encontrar en [github](https://github.com/melinaschamberger/Trayectorias_mujeres). 
