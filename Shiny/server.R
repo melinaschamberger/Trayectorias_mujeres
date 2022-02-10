@@ -1,17 +1,11 @@
-##################################
-# Biodiversity in National Parks #
-# by Alessio Benedetti           #
-# server.R file                  #
-##################################
+# Trayectorias académicas y laborales de las mujeres en Argentinas
+# Por Melina Schamberger y Natasha Siderman
+# server.R
 
 library(shiny)
 library(tidyverse)
 library(leaflet.extras)
 library(rvest)
-
-#####################
-# SUPPORT FUNCTIONS #
-#####################
 
 # function to retrieve a park image from the park wiki page
 park_image <- function (park_Name){
