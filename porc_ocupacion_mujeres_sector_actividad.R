@@ -37,6 +37,9 @@ sp_dos <- sp_dos %>% mutate(anio = year(fecha))
 sp_dos <- sp_dos %>% 
   group_by(anio, clae2_desc, clae2) %>% 
   summarise(porc_medio = round(mean(por_mu_sector_privado_clae2)*100,2))
+
+#Guardo archivo
+write.csv(sp_dos, "sector_privado_dosdigitos.csv", row.names = F)
                   
 ## 3. Analizo participación femenina en sector privado (clasificacion de tres digitos)
 colnames(datos)
@@ -196,6 +199,9 @@ df_juntos <- df_juntos %>% mutate(mes_cuali = case_when(
 write.csv(df_juntos, "Sector_privado_final.csv", row.names = F)
 
 #pruebo aplicando ambos filtros: 
+
+df_juntos <- read.csv("https://raw.githubusercontent.com/melinaschamberger/Trayectorias_mujeres/main/Datos/Mujeres_sector_privado/Sector_privado_final.csv", 
+                      encoding = "Latin1")
 
 filtrado <- df_juntos %>% filter(anio == 2007 & clae2 == 0) %>% arrange(mes)
 filtrado$mes_cuali <- factor(filtrado$mes_cuali, levels = filtrado[["mes_cuali"]])
