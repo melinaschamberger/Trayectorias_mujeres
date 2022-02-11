@@ -2,12 +2,21 @@
 # Por Melina Schamberger y Natasha Siderman
 # ui.R
 
+#Librerías
 library(leaflet)
 library(shinydashboard)
 library(collapsibleTree)
 library(shinycssloaders)
 library(DT)
 library(tigris)
+
+#Datos
+#Sector productivo: valores anuales
+df_juntos <- read.csv("https://raw.githubusercontent.com/melinaschamberger/Trayectorias_mujeres/main/Datos/Mujeres_sector_privado/Sector_privado_final.csv", 
+                      encoding = "Latin1")
+
+#Formatos
+
 
 shinyUI(fluidPage(
   
@@ -56,7 +65,20 @@ shinyUI(fluidPage(
         
         tabItem(tabName = "releases", includeMarkdown("www/releases.md")),
         
-        tabItem(tabName = "sub_1", fluidRow(h1("jaja"))),
+        tabItem(tabName = "sub_1", 
+          fluidRow(
+            HTML(paste0(
+            "<div style='text-align: justify; font-size:24pt; font-family:Encode Sans semiBold; color:#455B6C'><strong>Inserción laboral de las mujeres</strong></div>")),
+            br(),     
+            selectInput(inputId = "sector_productivo",
+                             label = strong("Seleccione el sector productivo:"),
+                             choices = unique(df_juntos$clae2_desc),
+                             selected = "Todos"
+                             ),
+            plotlyOutput(outputId = "graf_uno_sp", #height = 300, 
+                         #width = 500
+                         )
+                 )),
                 
         tabItem(tabName = "sub_2", fluidRow(h1("jeje")))
         
