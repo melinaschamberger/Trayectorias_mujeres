@@ -24,13 +24,6 @@ letras <- letras %>% rename( "por_mu_sector_privado_letra" = share_mujer)
 privado_total <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_privado_total_06122021.csv")
 privado_total <- privado_total %>% rename( "por_mu_sector_privado_total" = share_mujer)
 
-#Porcentaje de mujeres en el total de empresas, por sector de actividad
-empresas_dos_digitos <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_total_empresas_mensual_por_clae2_06122021.csv")
-empresas_tres_digitos <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_total_empresas_mensual_por_clae3_06122021.csv")
-empresas_seis_digitos <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_total_empresas_mensual_por_clae6_06122021.csv")
-empresas_letras <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_total_empresas_mensual_por_letra_06122021.csv")
-empresas_total <- read_csv("https://raw.githubusercontent.com/melinaschamberger/proyecto_shiny/main/Datos/Mujeres_sector_privado/share_mujer_total_empresas_total_06122021.csv")
-
 #Diccionario de clases: porcentaje de ocupación femenina por sector privado y sector de actividad
 datos <- read_csv("https://datos.produccion.gob.ar/dataset/162dc5a6-7a95-4f19-9d85-063c9be23208/resource/145dd127-630e-40a5-9a31-239e34a01d36/download/clae_diccionario.csv")
 
@@ -146,31 +139,30 @@ graf_tres <- ggplot(sp_dos_B, aes(x=reorder(clae2_desc, -porc_medio),
         plot.caption = element_text(hjust = 0.85)) + 
   scale_fill_gradientn(colours = c( "#3D2067", "#714674","#B67A78","#D8947A", "#FAAE7B","#FAB587"),
                        values = scales::rescale(c(11,8,5,2,0))) +
-  scale_y_continuous(limits = c(0, 12),
-                     breaks = seq(0, 12, by = 2), 
-                     labels = sprintf("%.f%%", seq(0,12, by = 2)))
+  scale_y_continuous(limits = c(0, 90),
+                     breaks = seq(0, 90, by = 5), 
+                     labels = sprintf("%.f%%", seq(0,90, by = 5)))
 ggsave("graf_tres.png", width = 40, height = 20, units = "cm")
 
 #-------------------------------------------------------------------------------
 ## 6. Analizo participación femenina en empresas
-head(empresas_seis_digitos)
 colnames(datos)
 
 #Junto los datos según clasificación de dos digitos
-nuevo_empresas_dos <- datos %>%  select(5:6)
-nuevo_empresas_dos <- unique(nuevo_empresas)
-nuevo_empresas_dos <- left_join(empresas_dos_digitos, nuevo_empresas_dos)
-nuevo_empresas_dos <- nuevo_empresas_dos %>% mutate(anio = year(fecha),
+nuevo_sector_dos <- datos %>%  select(5:6)
+nuevo_sector_dos <- unique(nuevo_sector_dos)
+nuevo_sector_dos <- left_join(dos_digitos, nuevo_sector_dos)
+nuevo_sector_dos <- nuevo_sector_dos %>% mutate(anio = year(fecha),
                                                     mes = month(fecha))
 #promedio anual en clasificación de dos digitos
-nuevo_empresas_dos <- nuevo_empresas_dos %>% 
+nuevo_sector_dos <- nuevo_sector_dos %>% 
   group_by(anio, mes, clae2_desc, clae2) %>% 
-  summarise(porc_medio = round(mean(share_mujer)*100,2))
+  summarise(porc_medio = round(mean(por_mu_sector_privado_clae2)*100,2))
 
 ##se espera poder filtrar por año y por sector de empresas
 
 #gráfico inicial con "promedio de todos los sectores
-promedio_mensual_gral <- nuevo_empresas_dos %>% 
+promedio_mensual_gral <- nuevo_sector_dos %>% 
   group_by(anio, mes) %>% 
   summarise(porc_medio = round(mean(porc_medio),2)) %>% 
   mutate(clae2_desc = "Todos",
@@ -185,7 +177,7 @@ colnames(p3)
 p3 <- p3 %>% rename("anio" = "anio...1")
 
 #incorporo al df uno variable que resuma los datos de todas las categorías para cada año
-df_juntos <- rbind(nuevo_empresas_dos, p3)
+df_juntos <- rbind(nuevo_sector_dos, p3)
 df_juntos <- df_juntos %>% mutate(mes_cuali = case_when(
                                     mes == 1 ~ "Enero",
                                     mes == 2 ~ "Febrero",
@@ -200,7 +192,11 @@ df_juntos <- df_juntos %>% mutate(mes_cuali = case_when(
                                     mes == 11 ~ "Noviembre",
                                     mes == 12 ~ "Diciembre"))
 
+#Guardo el archivo para tomar los datos de acá
+write.csv(df_juntos, "Sector_privado_final.csv", row.names = F)
+
 #pruebo aplicando ambos filtros: 
+
 filtrado <- df_juntos %>% filter(anio == 2007 & clae2 == 0) %>% arrange(mes)
 filtrado$mes_cuali <- factor(filtrado$mes_cuali, levels = filtrado[["mes_cuali"]])
 
