@@ -6,7 +6,9 @@ library(shiny)
 library(tidyverse)
 library(leaflet.extras)
 library(rvest)
-
+library(plotly)
+library(ggthemes)
+library(readr)
 
 ##################
 # DATA WRANGLING #
@@ -21,6 +23,12 @@ library(rvest)
 
 parks <- read.csv("www/parks.csv")
 species <- read.csv("www/species.csv")
+
+#Datos
+#Sector productivo: valores anuales
+df_juntos <- read.csv("https://raw.githubusercontent.com/melinaschamberger/Trayectorias_mujeres/main/Datos/Mujeres_sector_privado/Sector_privado_final.csv", 
+                      encoding = "Latin1")
+
 
 # tidy & enrich dataframes
 levels(species$Park.Name)[levels(species$Park.Name)=='Glacier National Park'] <- 'Glacier National Park (U.S.)'

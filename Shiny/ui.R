@@ -9,18 +9,11 @@ library(collapsibleTree)
 library(shinycssloaders)
 library(DT)
 library(tigris)
-library(plotly)
-library(tidyverse)
-library(ggthemes)
-library(readr)
+
 
 #Datos
-#Sector productivo: valores anuales
 df_juntos <- read.csv("https://raw.githubusercontent.com/melinaschamberger/Trayectorias_mujeres/main/Datos/Mujeres_sector_privado/Sector_privado_final.csv", 
                       encoding = "Latin1")
-
-#Formatos
-
 
 shinyUI(fluidPage(
   
