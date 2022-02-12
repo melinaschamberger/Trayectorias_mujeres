@@ -9,6 +9,10 @@ library(collapsibleTree)
 library(shinycssloaders)
 library(DT)
 library(tigris)
+library(plotly)
+library(tidyverse)
+library(ggthemes)
+library(readr)
 
 #Datos
 #Sector productivo: valores anuales
